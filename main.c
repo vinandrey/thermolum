@@ -2,7 +2,7 @@
 #include <gtk/gtk.h>
 #include <cairo.h>
 
-double coordy[1023];
+double y[1023];
 
 static void
 init_data (void) {
