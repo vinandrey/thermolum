@@ -8,7 +8,7 @@ static void
 init_data (void) {
   int i;
   for ( i = 0; i <= 1023; i++ ) {
-    coordy[i] = rand()%32 + 100;
+    coordy[i] = rand()%64 + 100;
   }
 }
 
