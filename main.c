@@ -2,9 +2,12 @@
 #include <gtk/gtk.h>
 #include <cairo.h>
 
-double y[1023];
+#include "guievents.h"
 
-static void
+
+double coordy[1023];
+
+void
 init_data (void) {
   int i;
   for ( i = 0; i <= 1023; i++ ) {
@@ -12,63 +15,7 @@ init_data (void) {
   }
 }
 
-static void
-button_clicked (GtkWidget *wid, gpointer *data) {
-  init_data();
-  g_print ("Button clicked.\n");
-}
 
-static gboolean
-delete_event (GtkWidget * widget, GdkEvent * event, gpointer data) {
-  g_print ("Delete event occurred\n");
-  return FALSE;
-}
- 
-static void
-destroy (GtkWidget * widget, gpointer data) {
-  g_print ("Destroy signal was sent\n");
-  gtk_main_quit ();
-}
-
-static gboolean
-on_expose_event (GtkWidget *widget, GdkEventExpose *event, gpointer data) {
-  int i;
-  cairo_t *cr;
-
-  cr = gdk_cairo_create(widget->window);
-
-  cairo_set_source_rgb(cr, 0, 0, 0);
-  cairo_set_line_width (cr, 0.5);
-  
-/*
-  for ( i = 0; i <= 1023; i++ ) {
-    coordy[i] = rand()%32 + 100;
-  }
-*/
-  for ( i = 0; i <= 1023 - 1; i++ ) {
-      cairo_move_to(cr, i, coordy[i]);
-      cairo_line_to(cr, i+1, coordy[i+1]);
-  }
-
-  cairo_stroke(cr);
-
-  cairo_destroy(cr);
-
-  return FALSE;
-}
-
-gboolean
-ok_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data) {
-  int i;
-  for ( i = 0; i <= 1023; i++ ) {
-    coordy[i] = rand()%32 + 100;
-  }
-
-  g_print ("Draw widget pressed.\n");
-  gtk_widget_queue_draw(widget);
-    
-  return TRUE;
-}
 /*
 double 
 get_data_point ( void ) {
