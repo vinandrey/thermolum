@@ -83,7 +83,7 @@ int main (int argc, char *argv[]) {
   g_signal_connect(draw_area, "button-press-event", G_CALLBACK(ok_press), NULL);
   g_signal_connect(draw_area, "expose-event", G_CALLBACK (on_expose_event), NULL);
 
-  g_timeout_add(100, (GSourceFunc) timer_handler, (gpointer) window);
+  g_timeout_add(40, (GSourceFunc) timer_handler, (gpointer) window);
   
   /* Enter the main loop */
   gtk_widget_show_all (window);
