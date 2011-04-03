@@ -3,7 +3,7 @@
 #include <cairo.h>
 
 #include "guievents.h"
-
+#include "timerhandler.h"
 
 double coordy[1023];
 
@@ -15,23 +15,6 @@ init_data (void) {
   }
 }
 
-
-/*
-double 
-get_data_point ( void ) {
-
-}
-
-double
-get_temp_value ( void ) {
-
-}
-
-void
-set_current ( int value ) {
-
-}
-*/
 int main (int argc, char *argv[]) {
   GtkWidget *window;
   GtkWidget *ok;
@@ -100,6 +83,8 @@ int main (int argc, char *argv[]) {
   g_signal_connect(draw_area, "button-press-event", G_CALLBACK(ok_press), NULL);
   g_signal_connect(draw_area, "expose-event", G_CALLBACK (on_expose_event), NULL);
 
+  g_timeout_add(100, (GSourceFunc) timer_handler, (gpointer) window);
+  
   /* Enter the main loop */
   gtk_widget_show_all (window);
   gtk_main ();

@@ -3,6 +3,7 @@
 #include <cairo.h>
 
 #include "guievents.h"
+#include "timerhandler.h"
 
 void
 button_clicked (GtkWidget *wid, gpointer *data) {
@@ -21,6 +22,20 @@ destroy (GtkWidget * widget, gpointer data) {
   gtk_main_quit ();
 }
 
+void
+init_draw_area (GtkWidget *widget) {
+  cairo_t *cr;
+  cr = gdk_cairo_create(widget->window);
+  
+  cairo_set_line_width (cr, 1);
+  cairo_set_source_rgb (cr, 0, 0, 0);
+  
+  cairo_rectangle (cr, 0, 0, 1023, 511);
+  cairo_fill(cr);
+  
+  cairo_stroke (cr);
+}
+
 gboolean
 on_expose_event (GtkWidget *widget, GdkEventExpose *event, gpointer data) {
   extern double coordy[1023];
@@ -28,8 +43,9 @@ on_expose_event (GtkWidget *widget, GdkEventExpose *event, gpointer data) {
   cairo_t *cr;
 
   cr = gdk_cairo_create(widget->window);
-
-  cairo_set_source_rgb(cr, 0, 0, 0);
+  init_draw_area (widget);
+  
+  cairo_set_source_rgb(cr, 0, 1, 0);
   cairo_set_line_width (cr, 0.5);
   
 /*
@@ -43,7 +59,6 @@ on_expose_event (GtkWidget *widget, GdkEventExpose *event, gpointer data) {
   }
 
   cairo_stroke(cr);
-
   cairo_destroy(cr);
 
   return FALSE;
@@ -62,3 +77,4 @@ ok_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data) {
     
   return TRUE;
 }
+
