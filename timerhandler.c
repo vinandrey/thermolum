@@ -1,14 +1,21 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
-#include <cairo.h>
 
-#include "guievents.h"
+
+
 #include "timerhandler.h"
 #include "portrw.h"
 
 gboolean
 timer_handler(GtkWidget* widget)
 {
+  extern int count;
+  extern double coordy[1023];
+  
+  coordy[count] = get_data_point();
+  count++;
+  gtk_widget_queue_draw(widget);
+  
   /*
   //если передан нулевой параметр - возвращаем ложь
   if (widget->window == NULL) return FALSE;

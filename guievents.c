@@ -3,7 +3,7 @@
 #include <cairo.h>
 
 #include "guievents.h"
-#include "timerhandler.h"
+
 
 void
 button_clicked (GtkWidget *wid, gpointer *data) {
@@ -38,6 +38,7 @@ init_draw_area (GtkWidget *widget) {
 
 gboolean
 on_expose_event (GtkWidget *widget, GdkEventExpose *event, gpointer data) {
+  extern int count;
   extern double coordy[1023];
   int i;
   cairo_t *cr;
@@ -53,9 +54,9 @@ on_expose_event (GtkWidget *widget, GdkEventExpose *event, gpointer data) {
     coordy[i] = rand()%32 + 100;
   }
 */
-  for ( i = 0; i <= 1023 - 1; i++ ) {
-      cairo_move_to(cr, i, coordy[i]);
-      cairo_line_to(cr, i+1, coordy[i+1]);
+  for ( i = 0; i <= count - 1; i++ ) {
+      cairo_move_to(cr, i-1, coordy[i-1]);
+      cairo_line_to(cr, i, coordy[i]);
   }
 
   cairo_stroke(cr);
@@ -66,13 +67,8 @@ on_expose_event (GtkWidget *widget, GdkEventExpose *event, gpointer data) {
 
 gboolean
 ok_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data) {
-  extern double coordy[1023];
-  int i;
-  for ( i = 0; i <= 1023; i++ ) {
-    coordy[i] = rand()%64 + 100;
-  }
-
   g_print ("Draw widget pressed.\n");
+  
   gtk_widget_queue_draw(widget);
     
   return TRUE;

@@ -1,11 +1,12 @@
 #include <stdlib.h>
 
-/*
 double 
 get_data_point ( void ) {
-
+  double x;
+  x = rand()%64 + 100;
+  return x;
 }
-
+/*
 double
 get_temp_value ( void ) {
 
