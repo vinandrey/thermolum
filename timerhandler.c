@@ -1,8 +1,6 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
 
-
-
 #include "timerhandler.h"
 #include "portrw.h"
 
@@ -10,9 +8,9 @@ gboolean
 timer_handler(GtkWidget* widget)
 {
   extern int count;
-  extern double coordy[1023];
+  extern int value[1023];
   
-  coordy[count] = get_data_point();
+  value[count] = get_data_point();
   count++;
   gtk_widget_queue_draw(widget);
   

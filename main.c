@@ -21,15 +21,19 @@
 
 #include "guievents.h"
 #include "timerhandler.h"
+#include "portrw.h"
 
-double coordy[1023];
+int fd = 0;
+char buf[256];
+int value[1023];
 int count;
 
 void
 init_data (void) {
+  extern int value[1023];
   int i;
   for ( i = 0; i <= 1023; i++ ) {
-    coordy[i] = 0;
+    value[i] = 0;
   }
   count = 0;
 }
@@ -45,6 +49,17 @@ int main (int argc, char *argv[]) {
   GtkWidget *valign;
   GtkWidget *draw_frame;
   GtkWidget *draw_area;
+/*  GtkWidget *entry_port;
+  GtkWidget *label_port;
+*/
+
+  extern int fd;
+  extern char buf[256];
+  char *port = "/dev/ttyUSB0";
+  int baud = 9600;
+
+  fd = serialport_init(port, baud);
+  memset(buf, 0, sizeof(buf));
 
   init_data();
 
@@ -81,13 +96,19 @@ int main (int argc, char *argv[]) {
   gtk_container_add(GTK_CONTAINER(window), vbox);
 
   hbox = gtk_hbox_new(TRUE, 3);
+/*
+  label_port = gtk_label_new("Port:");
+  gtk_container_add(GTK_CONTAINER(hbox), label_port);
 
+  entry_port = gtk_entry_new();
+  gtk_container_add(GTK_CONTAINER(hbox), entry_port);
+*/
   ok = gtk_button_new_with_label("Ok");
   gtk_widget_set_size_request(ok, 70, 30);
   gtk_container_add(GTK_CONTAINER(hbox), ok);
   close = gtk_button_new_with_label("Close");
   gtk_container_add(GTK_CONTAINER(hbox), close);
-  
+
   halign = gtk_alignment_new(1, 0, 0, 0);
   gtk_container_add(GTK_CONTAINER(halign), hbox);
 
